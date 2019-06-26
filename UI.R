@@ -48,7 +48,9 @@ shinyUI(
                   ),
     
     
-    dashboardSidebar(
+    dashboardSidebar(width = 275,
+                     
+                     #SideBar Menu begins
                      sidebarMenu(
                        
                        sidebarSearchForm(" searchText", "buttonSearch", "Search"), br(),
@@ -58,23 +60,44 @@ shinyUI(
                      
                      menuItem("Domain", tabName = "domain", icon= icon("search")), 
                      menuItem("Trends",tabName = "trend", icon = icon("chart-line"), badgeLabel = "beta", badgeColor = "yellow")
-                     ),br(),
                      
-               
-                           sliderInput("bins", "Years of experience", 1,50,10),
-                           textInput("text_input","Search User", value = "")),
+                     #Sidebar Menu Ends
+                     )
+                     # ,
+                     # br(),
+                     # 
+                     #       #Slider Input for Work Experience
+                     #       sliderInput("exp", "Years of experience", 0,20 ,value = c(5,10), step = 0.5)
+
+                           #Text Input
+                          # textInput("text_input","Search User", value = "")
+                          
+                          #Slider Input for bins in histogram
+                          
+                          
+                     ),
     dashboardBody(
       
       tabItems(
         tabItem(tabName = "JSinfo", 
-                h1("Job Seeker Related Information Here")),
-        tabItem(tabName = "jobs", 
-                h1("Job Related Information Here")),
+                h1("Job Seeker Related Information"), br(),
+                fluidRow(
+                  tabBox(width = 400,
+                  tabPanel(title= 'Jobseekers Information', icon = icon("user")),
+                  tabPanel(title= "Views and Applies",icon = icon("check-circle"),box(title = "Status of Viewed and Applied Jobs by Jobseeker",width = 400, status = "primary", solidHeader = T, DT::dataTableOutput('items_dt')))
+                  
+                  ))
+        
+        ),
+                tabItem(tabName = "jobs", 
+                h1("Job Related Information"), h3("Coming soon...")),
         tabItem(tabName = "domain",
-                h1("Domain Specific Information Here")),
+                h1("Domain Specific Information"), h3("Coming soon...")),
         tabItem(tabName = "trend", 
                 fluidRow(
-                  box(plotOutput("histogram"))
+                  box(plotOutput("histogram"), title = 'Applies to Work Experience', status = 'primary', background = "aqua"  ,solidHeader = T),
+                  box(title = "Controls for Histogram", 'Use these controls to fine tune the Histogram', br(),br(),
+                      status = "warning", solidHeader = T , sliderInput("bins", "Number of bins", 0,30, 15 , step = 0.5) )
                 ))
            
         )

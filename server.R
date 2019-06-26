@@ -9,5 +9,12 @@ shinyServer(
            xlab = "Years of Experience",
            ylab = "Total Applies")
     )
-  }
+    
+    output$items_dt = DT::renderDataTable(
+      JS360view,
+      filter = 'top',
+      options = list(scrollX = TRUE), editable = T , colnames = c('Email Id','Job ID','Company Name','Job Title','View Date','Apply Date', 'Application Status')
+    )
+    
+    }
 )
